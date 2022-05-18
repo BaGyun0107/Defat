@@ -50,9 +50,6 @@ module.exports = {
     const userInfo = await userAuth(req, res)
     if (!userInfo) { return res.status(200).json({ message: '유저정보 없음' })}
     
-    const userId = userInfo.dataValues.id
-    
-
     const user_id = userInfo.dataValues.id;
 
     const { kit_id, when } = req.body;
@@ -97,9 +94,9 @@ module.exports = {
     }
 
     const postUsermealInfo = await user_meal.findOne({
-       where : {
-         user_id : user_id
-       }
+      where : {
+        user_id : user_id
+      }
     })
 
     if (!postUsermealInfo) {
@@ -108,4 +105,32 @@ module.exports = {
       res.status(200).send({data : postUsermealInfo, message : '식단 정보 입력 완료'})
     }
   },
-};
+  delete: async (req, res) => {
+    try{
+      const userInfo = await userAuth(req, res);
+      if(!userInfo) return res.status(200).json({ message: 'Unauthorized userInfo!' })
+  
+      const usermealInfo = await user_meal.findOne({
+        where: {
+          user_id: user_id
+        }})
+      
+      if ( !usermealInfo ){
+        res.status(200).send({ message : '자료 없음' })
+      } else {
+        if ( breakfast ) {
+          user_meal.destroy({ where : { breakfast : usermealInfo.dataValues.breakfast }})
+        }
+        if ( lunch ) {
+          user_meal.destroy({ where : { lunch : usermealInfo.dataValues.lunch }})
+        }
+        if ( dinner ) {
+          user_meal.destroy({ where : { dinner : usermealInfo.dataValues.dinner }})
+        }
+        res.status(200).send({ message : '오늘의 식단 삭제 성공' })
+      }
+    } catch ( err ) {
+      res.status(500).send({ message : ' Sever Error '})
+    }     
+  }
+}

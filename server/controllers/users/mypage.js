@@ -45,7 +45,6 @@ module.exports = {
       try {
         /* 로그인 인증 검사 */
         const userInfo = await userAuth(req, res);
-        console.log(userInfo)
         if(!userInfo) return res.status(200).json({ message: 'Unauthorized userInfo!' });
   
         user.destroy({ where: { id: userInfo.id } });  // 유저 삭제
