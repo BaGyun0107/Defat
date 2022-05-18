@@ -9,6 +9,7 @@ const ContainerDiv = styled.div`
 const Div = styled.div`
   align-self: center;
   margin-bottom: 5px;
+  font-weight: ${(props) => props.bold? 'bold':null};
 `
 const RowDiv = styled.div`
   display: flex;
@@ -17,6 +18,8 @@ const RowDiv = styled.div`
   justify-content: center;
 `
 const Img = styled.img`
+width: 100%;
+height: 50%;
   margin-bottom:5px;
 `
 const Input =styled.input`
@@ -26,14 +29,16 @@ const Input =styled.input`
 `
 
 function Foodinfo({pickFood, setQuantity}){
+  const [thisQuantity, setThisQuantity] = useState(1)
   const handleQuantityChange = (e) => {
+    setThisQuantity(e.target.value)
     setQuantity(Number(e.target.value))
   }
   return (
     <ContainerDiv>
-      <Img src="img/food1.jpeg"></Img>
-      <Div>{pickFood}</Div>
-      <Div>영양성분</Div>
+      <Img src={pickFood.image}></Img>
+      <Div bold={true}>{pickFood.kit_name}</Div>
+      <Div>{Number(pickFood.kcal)*thisQuantity} kcal</Div>
       <RowDiv>
       <Div>수량: </Div>
       <Input min={0} defaultValue={1} type='number' onChange={handleQuantityChange}></Input>

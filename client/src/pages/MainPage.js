@@ -34,14 +34,14 @@ function Mainpage () {
       {/* 3항 연산자 걸어가지구 router 로 바뀔때 마다 이름 변경되게 끔 바꿔야됌 */}
       <div className="main-recommend-container">
       <Listform/>  
-      <Div>
+      {/* <Div>
       <Ul>
         <Li>밀키트 수요 폭등</Li>
         <Li>박상하 만세</Li>
         <Li>윤선웅 만세</Li>
         <Li>호호호호호</Li>
       </Ul>
-      </Div>
+      </Div> */}
       </div>
       
     </div>

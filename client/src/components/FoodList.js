@@ -18,12 +18,11 @@ const ContentDiv = styled.div`
   height: 5vh;
 `
 
-function FoodList({setPickFood}) {
-  const list = ['닭가슴살','아메리카노','삼겹살','돈까스'] //음식 종류 데이터 받아오기
+function FoodList({setPickFood, searchList}) {
   return (
     <ContainerDiv>
-      {list.map((el) => {
-        return <ContentDiv onClick={() => setPickFood(el)} key={el}>{el}</ContentDiv>
+      {searchList.map((el) => {
+        return <ContentDiv onClick={() => setPickFood(el)} key={el.id}>{el.kit_name}</ContentDiv>
       })}
     </ContainerDiv>
   )

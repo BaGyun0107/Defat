@@ -22,15 +22,23 @@ const CategoryRow = styled.div`
   align-items: center;
 `;
 const Category = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 15%;
   height: 100%;
   background-color: aquamarine;
+  border: 2px solid black;
 `;
 
 const CategoryMenu = styled.div`
   height: 100%;
   background-color: beige;
   width: 100%;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TagContainer = styled.div`
@@ -41,20 +49,41 @@ const Tag = styled.div``;
 
 function Mealkit() {
   const [dataList, setDataList] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
   useEffect(() => {
     axios.get('https://localhost:4000/mealkit').then((resp) => {
       setDataList(resp.data.data);
     });
   }, []);
-  console.log(dataList[0]);
+  const handleInput = (e) => {
+    setSearchInput(e.target.value);
+  };
+  const search = (e) => {
+    e.preventDefault();
+    if (searchInput === null || searchInput === '') {
+      axios.get(`https://localhost:4000/mealkit`).then((resp) => {
+        setDataList(resp.data.data);
+      });
+    }
+    axios
+      .get(`https://localhost:4000/mealkit/find/${searchInput}`)
+      .then((resp) => setDataList(resp.data.data));
+    setSearchInput('');
+  };
   return (
     <div>
       <CategoryContainer>
         <CategoryRow>
-          <input type="text"></input>
-          <button>검색</button>
+          <form onSubmit={search}>
+            <input
+              type="text"
+              value={searchInput}
+              onChange={handleInput}
+            ></input>
+            <button>검색</button>
+          </form>
         </CategoryRow>
-        <CategoryRow>
+        {/* <CategoryRow>
           <Category>브랜드</Category>
 
           <CategoryRow>
@@ -84,10 +113,11 @@ function Mealkit() {
             <CategoryMenu>400~500kcal</CategoryMenu>
             <CategoryMenu>500~600kcal</CategoryMenu>
           </CategoryRow>
-        </CategoryRow>
+        </CategoryRow> */}
         <TagContainer></TagContainer>
       </CategoryContainer>
-      <div><MealKitList dataList={dataList} />;
+      <div>
+        <MealKitList dataList={dataList} />
       </div>
     </div>
   );
