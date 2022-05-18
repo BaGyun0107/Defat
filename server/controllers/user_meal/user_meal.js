@@ -38,7 +38,7 @@ module.exports = {
     todaymenuInfo.push({ lunch: lunch.dataValues });
     todaymenuInfo.push({ dinner: dinner.dataValues });
 
-    if (todaymenuInfo.length === 0) {
+    if ( todaymenuInfo.length !== [] ) {
       res.status(404).send({ message: "해당 자료 없음" });
     } else {
       res.status(200).send({ data: todaymenuInfo, message: "정보 전달 완료" });
@@ -79,17 +79,20 @@ module.exports = {
       }
     } else {
       if (when === "breakfast") {
-        await user_meal.update({
-          breakfast: kit_id,
-        });
+        await user_meal.update(
+          { breakfast: ( [...kit_id] ) },
+          { where : { user_id : user_meal.dataValues.id }}
+        );
       } else if (when === 'lunch') {
-        await user_meal.update({
-          lunch: kit_id,
-        });
+        await user_meal.update(
+          { lunch: kit_id },
+          { whwere : { user_id : user_meal.dataValues.id }}
+          );
       } else if (when === 'dinner') {
-        await user_meal.update({
-          dinner: kit_id,
-        });
+        await user_meal.update(
+          { dinner: kit_id },
+          { where : { user_id : user_meal.dataValues.id }}
+        );
       }
     }
 
