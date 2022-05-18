@@ -1,17 +1,21 @@
 const { user_meal , kit } = require('../../models')
+const { userAuth } = require('../users/auth')
 
 module.exports = {
   get : async (req, res) => {
     
-    const user_id = 1
+    const userInfo = await userAuth(req, res)
+    if (!userInfo) { return res.status(200).json({ message: '유저정보 없음' })}
+
+    const userId = userInfo.dataValues.id
+
     const todaymenu = await user_meal.findOne( {
         where : {
-          user_id : user_id
+          user_id : userId
         }
     })
-    console.log(todaymenu)
+    
     const todaymenuInfo = []
-
     const breakfast = await kit.findOne({
         where : {
           id : todaymenu.dataValues.breakfast
@@ -43,6 +47,10 @@ module.exports = {
   post : async (req, res) => {
     // user_id 
     // req.body kit_id
+    const userInfo = await userAuth(req, res)
+    if (!userInfo) { return res.status(200).json({ message: '유저정보 없음' })}
+    
+    const userId = userInfo.dataValues.id
     
 
   }

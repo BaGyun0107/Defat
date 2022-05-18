@@ -8,7 +8,7 @@ module.exports = {
       const userInfo = await userAuth(req, res);
       if (!userInfo) { return res.status(200).json({ message: '유저정보 없음' })}
 
-        delete userInfo.dataValues.password
+      delete userInfo.dataValues.password
         res.status(200).send({ data: { userInfo : userInfo }, message: "조회 성공" });
     } catch (err) {
     console.log(err);

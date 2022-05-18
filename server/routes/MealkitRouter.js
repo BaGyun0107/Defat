@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const kits = require('../controllers/kits');
+const { kits } = require('../controllers');
 
 router.get('/', kits.detail.get)
 router.get('/information', kits.information.get)
