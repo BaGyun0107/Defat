@@ -59,9 +59,9 @@ module.exports = {
         user_id: user_id,
       },
     });
-
+    console.log(usermealInfo);
     if (!usermealInfo) {
-      if (when === "breakfast") {
+      if (when === 'breakfast') {
         await user_meal.create({
           user_id: user_id,
           breakfast: kit_id,
@@ -95,7 +95,6 @@ module.exports = {
         );
       }
     }
-
     const postUsermealInfo = await user_meal.findOne({
       where : {
         user_id : user_id
@@ -103,37 +102,47 @@ module.exports = {
     })
 
     if (!postUsermealInfo) {
-      res.status(404).send({message : '자료 없음'})
+      res.status(404).send({ message: '자료 없음' });
     } else {
-      res.status(200).send({data : postUsermealInfo, message : '식단 정보 입력 완료'})
+      res
+        .status(200)
+        .send({ data: postUsermealInfo, message: '식단 정보 입력 완료' });
     }
   },
   delete: async (req, res) => {
-    try{
+    try {
       const userInfo = await userAuth(req, res);
-      if(!userInfo) return res.status(200).json({ message: 'Unauthorized userInfo!' })
-  
+      if (!userInfo)
+        return res.status(200).json({ message: 'Unauthorized userInfo!' });
+
       const usermealInfo = await user_meal.findOne({
         where: {
-          user_id: user_id
-        }})
-      
-      if ( !usermealInfo ){
-        res.status(200).send({ message : '자료 없음' })
+          user_id: user_id,
+        },
+      });
+
+      if (!usermealInfo) {
+        res.status(200).send({ message: '자료 없음' });
       } else {
-        if ( breakfast ) {
-          user_meal.destroy({ where : { breakfast : usermealInfo.dataValues.breakfast }})
+        if (breakfast) {
+          user_meal.destroy({
+            where: { breakfast: usermealInfo.dataValues.breakfast },
+          });
         }
-        if ( lunch ) {
-          user_meal.destroy({ where : { lunch : usermealInfo.dataValues.lunch }})
+        if (lunch) {
+          user_meal.destroy({
+            where: { lunch: usermealInfo.dataValues.lunch },
+          });
         }
-        if ( dinner ) {
-          user_meal.destroy({ where : { dinner : usermealInfo.dataValues.dinner }})
+        if (dinner) {
+          user_meal.destroy({
+            where: { dinner: usermealInfo.dataValues.dinner },
+          });
         }
-        res.status(200).send({ message : '오늘의 식단 삭제 성공' })
+        res.status(200).send({ message: '오늘의 식단 삭제 성공' });
       }
-    } catch ( err ) {
-      res.status(500).send({ message : ' Sever Error '})
-    }     
-  }
+    } catch (err) {
+      res.status(500).send({ message: ' Sever Error ' });
+    }
+  },
 };
