@@ -9,7 +9,7 @@ const Footer2 = styled.footer`
 `;
 
 function Footer() {
-  return <Footer2>Footer</Footer2>;
+  return <Footer2></Footer2>;
 }
 
 export default Footer;
