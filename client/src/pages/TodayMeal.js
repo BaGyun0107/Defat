@@ -60,13 +60,13 @@ function TodayMeal({ isLogin }) {
   const getDay = week[new Date().getDay()];
   const [user, setUser] = useState({});
 
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     axios
-  //       .get('https://localhost:4000/todaymenu/')
-  //       .then((resp) => console.log(resp));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (isLogin) {
+      axios
+        .get('https://localhost:4000/todaymenu/')
+        .then((resp) => console.log(resp));
+    }
+  }, []);
 
   const clickPlus = (num) => {
     setOpenModal(!openModal);
